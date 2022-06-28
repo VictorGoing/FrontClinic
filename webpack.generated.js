@@ -136,7 +136,7 @@ const swManifestTransform = (manifestEntries) => {
     // it's not served as-is directly from the webpack output at `/index.html`.
     // It goes through IndexHtmlRequestHandler and is served at `/`.
     //
-    //  calculate the revision based on the IndexHtmlRequestHandler-processed content
+    // TODO: calculate the revision based on the IndexHtmlRequestHandler-processed content
     // of the index.html file
     const indexEntryIdx = manifest.findIndex((entry) => entry.url === 'index.html');
     if (indexEntryIdx !== -1) {

@@ -4,16 +4,30 @@ import com.clinic.frontclinic.MainView;
 import com.clinic.frontclinic.domain.Doctor;
 import com.clinic.frontclinic.service.DoctorService;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.grid.dataview.GridListDataView;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.TextFieldVariant;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteParameters;
+import com.vaadin.flow.router.RouterLink;
 
+import javax.swing.text.LabelView;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -21,6 +35,7 @@ import java.util.function.Consumer;
 public class SearchDoctorView extends VerticalLayout {
     private DoctorService doctorService = DoctorService.getInstance();
     private Grid<Doctor> grid = new Grid<>(Doctor.class,false);
+    private Div profile = new Div();
 
     private SearchDoctorView(){
 
@@ -29,6 +44,7 @@ public class SearchDoctorView extends VerticalLayout {
         Grid.Column<Doctor> lastnameColumn = grid.addColumn(Doctor::getLastname);
         Grid.Column<Doctor> specializationColumn = grid.addColumn(Doctor::getSpecialization);
         Grid.Column<Doctor> cityColumn = grid.addColumn(Doctor::getCity);
+
 
         List<Doctor> doctors = doctorService.getDoctors();
         GridListDataView<Doctor> dataView = grid.setItems(doctors);
@@ -47,8 +63,18 @@ public class SearchDoctorView extends VerticalLayout {
                 createFilterHeader("City", doctorFilter::setCity));
         setSizeFull();
 
+
+
+
+        profile.setVisible(false);
+        grid.addItemDoubleClickListener (event ->
+                chooseDoctor(event.getItem().getId(),event.getItem().getFirstname(),event.getItem().getLastname()));
+
+        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
         add(grid);
     }
+
+
 
     private static Component createFilterHeader(String labelText,
                                                 Consumer<String> filterChangeConsumer) {
@@ -68,6 +94,23 @@ public class SearchDoctorView extends VerticalLayout {
         layout.getThemeList().add("spacing-xs");
 
         return layout;
+    }
+
+    private void chooseDoctor(Long id,String doctorFirstname, String doctorLastname){
+        if(profile.isVisible()) {
+            profile.removeAll();
+            profile.add(new RouterLink(
+                    "See " + doctorFirstname + " " + doctorLastname + " profile.",
+                    DoctorProfileView.class, new RouteParameters("doctorId", id.toString())));
+            add(profile);
+        }
+        else{
+            profile.setVisible(true);
+                    profile.add(new RouterLink(
+                            "See " + doctorFirstname + " " + doctorLastname + " profile.",
+                            DoctorProfileView.class, new RouteParameters("doctorId", id.toString())));
+            add(profile);
+        }
     }
 
     private static class DoctorFilter {

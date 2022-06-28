@@ -1,18 +1,30 @@
 package com.clinic.frontclinic.domain;
 
 
+import java.util.Optional;
+
 public class Doctor {
+    private Long id;
     private String firstname;
     private String lastname;
     private String specialization;
     private String city;
 
-    public Doctor(String firstname, String lastname, String specialization, String city) {
+    public Doctor(Long id,String firstname, String lastname, String specialization, String city) {
+        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.specialization = specialization;
         this.city = city;
     }
+
+    public Long getId(){
+        return id;
+    }
+
+   /* public Optional<Long> getId(){
+        return Optional.ofNullable(id);
+    }*/
 
     public String getFirstname() {
         return firstname;

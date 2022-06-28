@@ -1,5 +1,7 @@
 package com.clinic.frontclinic;
 
+import com.clinic.frontclinic.domain.User;
+import com.clinic.frontclinic.view.EditAccountView;
 import com.clinic.frontclinic.view.SearchDoctorView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -19,7 +21,7 @@ public class MainView extends AppLayout {
     private Tab tabVisits = new Tab("Visits");
 
 
-    public MainView(){
+    public MainView(User user){
         //add(new Button("Click me", e -> Notification.show("Hello World")));
         createNavbar();
         createTabs();
@@ -51,20 +53,10 @@ public class MainView extends AppLayout {
 
         RouterLink search_doctor = new RouterLink("Search doctor", SearchDoctorView.class);
         search_doctor.setHighlightCondition(HighlightConditions.sameLocation());
+        RouterLink edit_account = new RouterLink("Edit Account", EditAccountView.class);
+        edit_account.setHighlightCondition(HighlightConditions.sameLocation());
 
-
-        addToDrawer(new VerticalLayout(search_doctor));
-
-    }
-
-    private void createContent(){
+        addToDrawer(new VerticalLayout(search_doctor,edit_account));
 
     }
-
-
-
-    private void tabsListener(int menu){
-
-    }
-
 }

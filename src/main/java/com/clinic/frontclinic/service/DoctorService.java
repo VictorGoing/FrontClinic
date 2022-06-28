@@ -1,12 +1,10 @@
 package com.clinic.frontclinic.service;
 
 import com.clinic.frontclinic.domain.Doctor;
+import com.clinic.frontclinic.exceptions.DoctorNotFoundException;
 import com.vaadin.flow.component.grid.dataview.GridListDataView;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DoctorService {
@@ -28,15 +26,22 @@ public class DoctorService {
         return new ArrayList<>(doctors);
     }
 
+    public Doctor getDoctorById(Optional<String> doctorId) {
+        for(Doctor doctor: doctors) {
+            if (doctor.getId() == Long.parseLong(doctorId.get())) return doctor;
+        }
+        return doctors.get(0);
+    }
+
     public void addDoctor(Doctor doctor){
         this.doctors.add(doctor);
     }
 
     private List<Doctor> exampleData(){
         List<Doctor> doctors = new ArrayList<>();
-        doctors.add(new Doctor("Miroslaw","Bagietka","Dietetyk","Olsztyn"));
-        doctors.add(new Doctor("Marcin","Talarek","Stomatolog","Warszawa"));
-        doctors.add(new Doctor("Michal", "Cebula", "Kardiolog","Gniezno"));
+        doctors.add(new Doctor(1L,"Miroslaw","Bagietka","Dietetyk","Olsztyn"));
+        doctors.add(new Doctor(2L,"Marcin","Talarek","Stomatolog","Warszawa"));
+        doctors.add(new Doctor(3L,"Michal", "Cebula", "Kardiolog","Gniezno"));
         return doctors;
     }
 
