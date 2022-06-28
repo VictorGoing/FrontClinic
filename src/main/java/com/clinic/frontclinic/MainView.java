@@ -21,7 +21,7 @@ public class MainView extends AppLayout {
     private Tab tabVisits = new Tab("Visits");
 
 
-    public MainView(User user){
+    public MainView(){
         //add(new Button("Click me", e -> Notification.show("Hello World")));
         createNavbar();
         createTabs();

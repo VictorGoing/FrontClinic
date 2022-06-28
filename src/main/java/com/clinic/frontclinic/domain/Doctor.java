@@ -1,6 +1,8 @@
 package com.clinic.frontclinic.domain;
 
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 
 public class Doctor {
@@ -9,13 +11,17 @@ public class Doctor {
     private String lastname;
     private String specialization;
     private String city;
+    private int startWorkingHours;
+    private int endWorkingHours;
 
-    public Doctor(Long id,String firstname, String lastname, String specialization, String city) {
+    public Doctor(Long id,String firstname, String lastname, String specialization, String city,int startWorking, int endWorking) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.specialization = specialization;
         this.city = city;
+        this.startWorkingHours = startWorking;
+        this.endWorkingHours = endWorking;
     }
 
     public Long getId(){
@@ -40,6 +46,14 @@ public class Doctor {
 
     public String getCity() {
         return city;
+    }
+
+    public int getStartWorkingHours() {
+        return startWorkingHours;
+    }
+
+    public int getEndWorkingHours() {
+        return endWorkingHours;
     }
 
     public void setFirstname(String firstname) {
