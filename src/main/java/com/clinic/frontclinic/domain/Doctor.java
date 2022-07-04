@@ -3,25 +3,35 @@ package com.clinic.frontclinic.domain;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
-public class Doctor {
+public class Doctor implements ClinicUser {
+    private static String role = "DOCTOR";
+
     private Long id;
     private String firstname;
     private String lastname;
     private String specialization;
     private String city;
-    private int startWorkingHours;
-    private int endWorkingHours;
+    private String email;
+    private String password;
+    private int startWorkingHour;
+    private int endWorkingHour;
+    private List<Long> appointmentsId;
 
-    public Doctor(Long id,String firstname, String lastname, String specialization, String city,int startWorking, int endWorking) {
+    public Doctor(Long id, String firstname, String lastname, String specialization, String city,
+                  String email, String password, int startWorkingHour, int endWorkingHour, List<Long> appointmentsId) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.specialization = specialization;
         this.city = city;
-        this.startWorkingHours = startWorking;
-        this.endWorkingHours = endWorking;
+        this.email = email;
+        this.password = password;
+        this.startWorkingHour = startWorkingHour;
+        this.endWorkingHour = endWorkingHour;
+        this.appointmentsId = appointmentsId;
     }
 
     public Long getId(){
@@ -48,12 +58,24 @@ public class Doctor {
         return city;
     }
 
-    public int getStartWorkingHours() {
-        return startWorkingHours;
+    public int getStartWorkingHour() {
+        return startWorkingHour;
     }
 
-    public int getEndWorkingHours() {
-        return endWorkingHours;
+    public int getEndWorkingHour() {
+        return endWorkingHour;
+    }
+
+    public String getRole(){
+        return role;
+    }
+
+    public String getEmail(){return email;}
+
+    public String getPassword(){return password;}
+
+    public List<Long> getAppointmentsId() {
+        return appointmentsId;
     }
 
     public void setFirstname(String firstname) {
@@ -86,6 +108,20 @@ public class Doctor {
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         result = 31 * result + (specialization != null ? specialization.hashCode() : 0);
         return result;
+    }
+
+
+    public Doctor(String firstname, String lastname, String specialization, String city, String email, String password,
+                  int startWorkingHour, int endWorkingHour, List<Long> appointmentsId) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.specialization = specialization;
+        this.city = city;
+        this.email = email;
+        this.password = password;
+        this.startWorkingHour = startWorkingHour;
+        this.endWorkingHour = endWorkingHour;
+        this.appointmentsId = appointmentsId;
     }
 }
 

@@ -3,36 +3,31 @@ package com.clinic.frontclinic.view;
 import com.clinic.frontclinic.MainView;
 import com.clinic.frontclinic.domain.Doctor;
 import com.clinic.frontclinic.service.DoctorService;
+import com.clinic.frontclinic.service.PatientService;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.grid.dataview.GridListDataView;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.TextFieldVariant;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteParameters;
 import com.vaadin.flow.router.RouterLink;
 
-import javax.swing.text.LabelView;
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.function.Consumer;
 
 @Route(value = "SearchDoctors", layout = MainView.class)
+@RolesAllowed("PATIENT")
 public class SearchDoctorView extends VerticalLayout {
+
+    private PatientService patientService = PatientService.getInstance();
     private DoctorService doctorService = DoctorService.getInstance();
     private Grid<Doctor> grid = new Grid<>(Doctor.class,false);
     private Div profile = new Div();
@@ -46,7 +41,7 @@ public class SearchDoctorView extends VerticalLayout {
         Grid.Column<Doctor> cityColumn = grid.addColumn(Doctor::getCity);
 
 
-        List<Doctor> doctors = doctorService.getDoctors();
+        List<Doctor> doctors = doctorService.getListOfDoctors();
         GridListDataView<Doctor> dataView = grid.setItems(doctors);
         DoctorFilter doctorFilter = new DoctorFilter(dataView);
 
@@ -54,16 +49,14 @@ public class SearchDoctorView extends VerticalLayout {
         HeaderRow headerRow = grid.appendHeaderRow();
 
         headerRow.getCell(firstnameColumn).setComponent(
-                createFilterHeader("Firstname", doctorFilter::setFirstname));
+                createFilterHeader("First name", doctorFilter::setFirstname));
         headerRow.getCell(lastnameColumn).setComponent(
-                createFilterHeader("Lastname", doctorFilter::setLastname));
+                createFilterHeader("Last name", doctorFilter::setLastname));
         headerRow.getCell(specializationColumn).setComponent(
                 createFilterHeader("Specialization", doctorFilter::setSpecialization));
         headerRow.getCell(cityColumn).setComponent(
                 createFilterHeader("City", doctorFilter::setCity));
         setSizeFull();
-
-
 
 
         profile.setVisible(false);

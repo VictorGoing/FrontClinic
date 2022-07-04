@@ -1,20 +1,19 @@
 package com.clinic.frontclinic.service;
 
 import com.clinic.frontclinic.domain.Doctor;
-import com.clinic.frontclinic.exceptions.DoctorNotFoundException;
-import com.vaadin.flow.component.grid.dataview.GridListDataView;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DoctorService {
     private List<Doctor> doctors;
     private static DoctorService doctorService;
 
     private DoctorService(){
-        this.doctors = exampleData();
     }
 
     public static DoctorService getInstance(){
@@ -24,9 +23,7 @@ public class DoctorService {
         return doctorService;
     }
 
-    public List<Doctor> getDoctors(){
-        return new ArrayList<>(doctors);
-    }
+
 
     public Doctor getDoctorById(String doctorId) {
         for(Doctor doctor: doctors) {
@@ -35,20 +32,25 @@ public class DoctorService {
         return doctors.get(0);
     }
 
-    public void addDoctor(Doctor doctor){
-        this.doctors.add(doctor);
+    public List<Doctor> getListOfDoctors(){
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<List<Doctor>> exchange = restTemplate.exchange(
+                "http://localhost:8083/v1/getListOfDoctors",
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<List<Doctor>>() {});
+        return exchange.getBody();
     }
 
-    private List<Doctor> exampleData(){
-        List<Doctor> doctors = new ArrayList<>();
-        doctors.add(new Doctor(1L,"Miroslaw","Bagietka","Dietetyk","Olsztyn",8,16));
-        doctors.add(new Doctor(2L,"Marcin","Talarek","Stomatolog","Warszawa",10,18));
-        doctors.add(new Doctor(3L,"Michal", "Cebula", "Kardiolog","Gniezno",6,14));
-        return doctors;
-    }
-
-    public List<Doctor> findBySpecialization(String specialization){
-        return doctors.stream().filter(doctor -> doctor.getSpecialization().contains(specialization)).collect(Collectors.toList());
+    public void registerDoctor(Doctor doctor){
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Doctor> exchange = restTemplate.exchange(
+                "http://localhost:8083/v1/doctor/register",
+                HttpMethod.POST,
+                new HttpEntity<Doctor>(doctor),
+                Doctor.class);
+        System.out.println(exchange.getBody());
+        System.out.println("Test");
     }
 
 

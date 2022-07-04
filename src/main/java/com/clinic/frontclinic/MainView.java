@@ -1,6 +1,6 @@
 package com.clinic.frontclinic;
 
-import com.clinic.frontclinic.domain.User;
+import com.clinic.frontclinic.domain.Patient;
 import com.clinic.frontclinic.view.EditAccountView;
 import com.clinic.frontclinic.view.SearchDoctorView;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -11,15 +11,17 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route
+@AnonymousAllowed
 public class MainView extends AppLayout {
 
     private Tab tabCovidInfo = new Tab("Covid 19 INFO");
     private Tab tabEditAccount = new Tab("Edit account");
     private Tab tabSearchDoctors = new Tab("Search doctors");
     private Tab tabVisits = new Tab("Visits");
-
+    private Patient currentPatient;
 
     public MainView(){
         //add(new Button("Click me", e -> Notification.show("Hello World")));
