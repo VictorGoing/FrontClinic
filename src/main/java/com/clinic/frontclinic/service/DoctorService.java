@@ -1,6 +1,7 @@
 package com.clinic.frontclinic.service;
 
 import com.clinic.frontclinic.domain.Doctor;
+import com.clinic.frontclinic.domain.Patient;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -10,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 public class DoctorService {
-    private List<Doctor> doctors;
     private static DoctorService doctorService;
 
     private DoctorService(){
@@ -26,16 +26,19 @@ public class DoctorService {
 
 
     public Doctor getDoctorById(String doctorId) {
-        for(Doctor doctor: doctors) {
-            if (doctor.getId() == Long.parseLong(doctorId)) return doctor;
-        }
-        return doctors.get(0);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Doctor> exchange = restTemplate.exchange(
+                "http://localhost:8083/v1/doctor/" + doctorId,
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                Doctor.class);
+        return exchange.getBody();
     }
 
     public List<Doctor> getListOfDoctors(){
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<List<Doctor>> exchange = restTemplate.exchange(
-                "http://localhost:8083/v1/getListOfDoctors",
+                "http://localhost:8083/v1/doctor/getListOfDoctors",
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
                 new ParameterizedTypeReference<List<Doctor>>() {});

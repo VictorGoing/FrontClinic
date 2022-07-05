@@ -123,6 +123,9 @@ public class Doctor implements ClinicUser {
         this.endWorkingHour = endWorkingHour;
         this.appointmentsId = appointmentsId;
     }
+
+    public Doctor() {
+    }
 }
 
 

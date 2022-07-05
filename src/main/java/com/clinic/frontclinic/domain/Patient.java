@@ -1,6 +1,9 @@
 package com.clinic.frontclinic.domain;
 
+import com.clinic.frontclinic.view.PatientLoginView;
+import com.vaadin.flow.spring.security.VaadinWebSecurityConfigurerAdapter;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -63,6 +66,10 @@ public class Patient implements ClinicUser {
         this.email = email;
         this.password = password;
         this.appointmentDtos = appointmentDtos;
+    }
+
+    public Patient(){
+
     }
 
 

@@ -3,28 +3,29 @@ package com.clinic.frontclinic.domain;
 import java.time.LocalDateTime;
 
 public class Appointment {
-    private LocalDateTime date;
-    private int time;
-    private Long doctorId;
-    private Long UserId;
 
-    public Appointment(int time, Long doctorId, Long userId) {
-        this.time = time;
+    private Long id;
+    private LocalDateTime date;
+    private Long doctorId;
+    private Long patientId;
+
+    public Appointment(LocalDateTime date, Long doctorId, Long patientId) {
+        this.date = date;
         this.doctorId = doctorId;
-        UserId = userId;
+        this.patientId = patientId;
     }
 
 
-    public int getTime() {
-        return time;
+    public LocalDateTime getDate() {
+        return date;
     }
 
     public Long getDoctorId() {
         return doctorId;
     }
 
-    public Long getUserId() {
-        return UserId;
+    public Long getPatientId() {
+        return patientId;
     }
 
     public static LocalDateTime getStartDateTime(Appointment appointment) {

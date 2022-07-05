@@ -18,13 +18,14 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteParameters;
 import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.function.Consumer;
 
 @Route(value = "SearchDoctors", layout = MainView.class)
-@RolesAllowed("PATIENT")
+@AnonymousAllowed
 public class SearchDoctorView extends VerticalLayout {
 
     private PatientService patientService = PatientService.getInstance();
