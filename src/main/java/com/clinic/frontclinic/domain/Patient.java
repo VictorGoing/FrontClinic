@@ -1,9 +1,6 @@
 package com.clinic.frontclinic.domain;
 
-import com.clinic.frontclinic.view.PatientLoginView;
-import com.vaadin.flow.spring.security.VaadinWebSecurityConfigurerAdapter;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -19,7 +16,7 @@ public class Patient implements ClinicUser {
     private String lastname;
     private String email;
     private String password;
-    private List<Long> appointmentDtos;
+    private List<Long> appointmentIdList;
 
 
     public Long getId() {
@@ -46,8 +43,8 @@ public class Patient implements ClinicUser {
         return role;
     }
 
-    public List<Long> getAppointmentDtos() {
-        return appointmentDtos;
+    public List<Long> getAppointmentIdList() {
+        return appointmentIdList;
     }
 
     //registerConstructor
@@ -59,13 +56,13 @@ public class Patient implements ClinicUser {
     }
 
     //downloadPatientConstructor
-    public Patient(Long id, String firstname, String lastname, String email, String password, List<Long> appointmentDtos) {
+    public Patient(Long id, String firstname, String lastname, String email, String password, List<Long> appointmentIdList) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
-        this.appointmentDtos = appointmentDtos;
+        this.appointmentIdList = appointmentIdList;
     }
 
     public Patient(){

@@ -42,6 +42,16 @@ public class PatientService {
         return null;
     }
 
+    public Patient getPatientById(Long patientId) {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Patient> exchange = restTemplate.exchange(
+                "http://localhost:8083/v1/patient/getPatientById/" + patientId.toString(),
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                Patient.class);
+        return exchange.getBody();
+    }
+
 
     public void registerPatient(Patient patient){
         RestTemplate restTemplate = new RestTemplate();
@@ -50,8 +60,6 @@ public class PatientService {
                 HttpMethod.POST,
                 new HttpEntity<Patient>(patient),
                 Patient.class);
-        System.out.println(exchange.getBody());
-        System.out.println("Test");
     }
 
     public Patient getPatientByEmail(String email){
@@ -63,16 +71,5 @@ public class PatientService {
                 Patient.class);
         return exchange.getBody();
     }
-
-  /*  public void loginUser(String email, String password){
-        User user = exampleData();
-        if(user.getEmail().equals(email) && user.getPassword().equals(password)) return exampleData();
-        return User;
-    }*/
-
-
-    /*private User exampleData(){
-
-    }*/
 
 }

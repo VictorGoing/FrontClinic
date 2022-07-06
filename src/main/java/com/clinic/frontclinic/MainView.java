@@ -1,9 +1,7 @@
 package com.clinic.frontclinic;
 
 import com.clinic.frontclinic.domain.Patient;
-import com.clinic.frontclinic.view.EditAccountView;
-import com.clinic.frontclinic.view.PatientLoginView;
-import com.clinic.frontclinic.view.SearchDoctorView;
+import com.clinic.frontclinic.view.*;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -12,6 +10,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.router.HighlightConditions;
+import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.VaadinService;
@@ -65,10 +64,15 @@ public class MainView extends AppLayout {
         search_doctor.setHighlightCondition(HighlightConditions.sameLocation());
         RouterLink edit_account = new RouterLink("Edit Account", EditAccountView.class);
         edit_account.setHighlightCondition(HighlightConditions.sameLocation());
+        RouterLink all_appointments = new RouterLink("Your appointments", AllAppointmentsView.class);
+        all_appointments.setHighlightCondition(HighlightConditions.sameLocation());
+        RouterLink covid_info = new RouterLink("Covid 19 informations", CovidInfoView.class);
+        covid_info.setHighlightCondition(HighlightConditions.sameLocation());
+
 
         Button btnLogout = new Button("Logout");
         btnLogout.addClickListener(e->logoutCurrentUser());
-        addToDrawer(new VerticalLayout(search_doctor,edit_account,btnLogout));
+        addToDrawer(new VerticalLayout(search_doctor,edit_account,all_appointments,covid_info,btnLogout));
     }
 
     public void logoutCurrentUser(){

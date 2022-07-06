@@ -46,14 +46,23 @@ public class AppointmentService {
                 Appointment.class);
     }
 
-    public List<Appointment> getAppointmentList(List<Long> appointmentsId){
+    public List<Appointment> getAppointmentList(Long patientId){
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<List<Appointment>> exchange = restTemplate.exchange(
-                "http://localhost:8083/v1/appointment/list",
+                "http://localhost:8083/v1/appointment/list/"+ patientId.toString(),
                 HttpMethod.GET,
-                new HttpEntity<List<Long>>(appointmentsId),
-                new ParameterizedTypeReference<List<Appointment>>() {}
-        );
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<List<Appointment>>() {});
+        return exchange.getBody();
+    }
+
+    public Appointment editAppointment(Appointment appointment){
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Appointment> exchange = restTemplate.exchange(
+            "http://localhost:8083/v1/appointment/list/edit",
+                HttpMethod.PUT,
+                new HttpEntity<Appointment>(appointment),
+                Appointment.class);
         return exchange.getBody();
     }
 }

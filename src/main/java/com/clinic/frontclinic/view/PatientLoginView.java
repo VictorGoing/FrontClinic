@@ -8,10 +8,12 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.AbstractLogin;
 
+import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
@@ -24,22 +26,18 @@ import java.net.http.HttpRequest;
 
 @Route("login")
 @PageTitle("Login | Clinic")
-@AnonymousAllowed
-public class PatientLoginView extends Composite<LoginOverlay> {
+public class PatientLoginView extends VerticalLayout {
 
     PatientService patientService = PatientService.getInstance();
     public PatientLoginView(){
-        LoginOverlay loginOverlay = getContent();
-        loginOverlay.setTitle("Clinic");
-        loginOverlay.setDescription(" ");
-        loginOverlay.setForgotPasswordButtonVisible(false);
+        LoginForm loginForm = new LoginForm();
+        loginForm.setForgotPasswordButtonVisible(false);
 
-        /*setSizeFull();
+        setSizeFull();
         setJustifyContentMode(JustifyContentMode.CENTER);
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        add(loginForm);*/
-        loginOverlay.setOpened(true);
-        loginOverlay.addLoginListener(loginEvent -> {
+        add(loginForm);
+        loginForm.addLoginListener(loginEvent -> {
             try {
                 Patient patient = patientService.getPatientByEmail(loginEvent.getUsername());
 
@@ -47,17 +45,17 @@ public class PatientLoginView extends Composite<LoginOverlay> {
                     UI.getCurrent().navigate(MainView.class);
                     saveCurrentPatient(patient);
                 } else {
-                    Notification.show("Wrong credentials");
+                    new Notification("Wrong credentials",6000);
                 }
             } catch (HttpServerErrorException e){
-                Notification.show("User not found");
+                new Notification("User not found",6000);
             }
 
         });
 
-
-
-        //add(registerAsPatient,registerAsDoctor);
+        RouterLink registerAsPatient = new RouterLink("registerPatient", PatientRegisterView.class);
+        RouterLink registerAsDoctor = new RouterLink("registerDoctor",DoctorRegisterView.class);
+        add(registerAsPatient,registerAsDoctor);
 
 
     }
